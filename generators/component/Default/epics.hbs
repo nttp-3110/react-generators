@@ -1,0 +1,23 @@
+import { ofType } from 'redux-observable';
+import { mergeMap, catchError, switchMap } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { makeAjaxRequest } from '../../utils/ajax';
+import { actions, END_POINT } from './constants';
+
+const exampleEpic = (action$) => {
+  return action$.pipe(
+    ofType(),
+    switchMap((action) =>
+      makeAjaxRequest()
+    ).pipe(
+      mergeMap((data) => {
+        return of();
+      }),
+      catchError((error) => {
+        return of();
+      })
+    )
+  )
+};
+
+export default [];

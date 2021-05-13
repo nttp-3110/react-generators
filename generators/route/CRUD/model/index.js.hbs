@@ -1,0 +1,127 @@
+import modelEnhance from '@/utils/modelEnhance';
+import PageHelper from '@/utils/pageHelper';
+import routerLinks from "@/utils/routerLinks";
+
+import {
+  getList_{{constantCase name }},
+  save_{{constantCase name }},
+  update_{{constantCase name }},
+  patch_{{constantCase name }},
+  delete_{{constantCase name }},
+{{#if isGroup}}
+  get_{{constantCase nameGroup}},
+  change_{{constantCase nameGroup}},
+  delete_{{constantCase nameGroup}},
+{{/if}}
+} from "../service"
+
+/**
+* true when the page is first loaded
+* Can use this value to prevent switching pages when
+* Initialize data multiple times
+*/
+let url = true;
+export default modelEnhance({
+  namespace: '{{camelCase name}}',
+
+  state: {
+    pageData: PageHelper.create(),
+  {{#if isGroup}}
+    {{camelCase nameGroup}}s: [],
+    {{camelCase name}}s: [],
+  {{/if}}
+  },
+
+  subscriptions: {
+    setup({ dispatch, history }) {
+      history.listen(({ pathname, search }) => {
+        if (pathname === routerLinks("{{properCase name}}") && !!search && url) {
+          url = false
+          setTimeout(() => url = true, 500);
+          const payload = PageHelper.URLToArray(search);
+          dispatch({ type: 'init', payload });
+        }
+      });
+    }
+  },
+
+  effects: {
+    // Enter page load
+    *init({ payload }, { put, select }) {
+      const { pageData } = yield select(state => state.{{camelCase name }});
+      yield put({
+        type: 'getPageInfo',
+        payload: {
+          pageData: pageData.setPage(payload)
+        }
+      });
+      {{#if isGroup}}
+      yield put({type: 'getAllAttributes'});
+      {{/if}}
+    },
+    *getAllAttributes({ payload }, { put, select }) {
+      {{#if isGroup}}
+      const { links } = yield select(state => state.global);
+      if (typeof links === "boolean" || typeof links[routerLinks("{{properCase nameGroup}}", "api")] !== "undefined") yield put({ type: 'get{{pascalCase nameGroup}}' });
+      {{/if}}
+    },
+    // Get paging data
+    *getPageInfo({ payload }, { call }) {
+      const { pageData } = payload;
+      const data = yield call (getList_{{constantCase name }}, pageData)
+      pageData.setPage(data);
+    },
+    // Save after querying paging
+    *save({ payload }, { put, select, call }) {
+      const { values, success } = payload;
+      const { pageData } = yield select(state => state.{{camelCase name }});
+
+      if (values.id) yield call(update_{{constantCase name }}, values);
+      else yield call(save_{{constantCase name }}, values);
+
+      yield put({ type: 'getPageInfo', payload: { pageData } });
+      success();
+    },
+    // Delete after querying paging
+    *remove({ payload }, { put, select, call }) {
+      const { records, success } = payload;
+      const { pageData } = yield select(state => state.{{camelCase name}});
+      const data = records.map(item => item.id)
+      yield call(delete_{{constantCase name}}, data);
+      yield put({ type: 'getPageInfo', payload: { pageData } });
+      {{#if isGroup}}
+      yield put({type: 'getAllAttributes'});
+      {{/if}}
+      success();
+    },
+    *patch({ payload }, { select, call, put }) {
+      const { records } = payload;
+      const { pageData } = yield select(state => state.{{camelCase name}});
+      yield call(patch_{{constantCase name}}, records);
+      yield put({ type: 'getPageInfo', payload: { pageData } });
+    },
+    {{#if isGroup}}
+    *get{{pascalCase nameGroup}}({ payload }, { call, put }) {
+      const data = yield call(get_{{constantCase nameGroup}})
+      yield put({ type: 'success', payload: data });
+    },
+    *change{{pascalCase nameGroup}}({ payload }, { call, put }) {
+      const {{camelCase nameGroup}}s = yield call(change_{{constantCase nameGroup}}, payload)
+      yield put({ type: 'success', payload: { {{camelCase nameGroup}}s } });
+    },
+    *remove{{pascalCase nameGroup}}({ payload }, { call, put }) {
+      yield call(delete_{{constantCase nameGroup}}, payload);
+      yield put({ type: 'get{{pascalCase nameGroup}}' });
+    }
+    {{/if}}
+  },
+
+  reducers: {
+    success(state, { payload }) {
+      return {
+        ...state,
+        ...payload,
+      };
+    },
+  }
+});

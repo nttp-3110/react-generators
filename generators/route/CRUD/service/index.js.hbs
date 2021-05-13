@@ -1,0 +1,40 @@
+import axios from 'axios';
+import config from '@/config';
+import PageHelper from '@/utils/pageHelper';
+import routerLinks from "@/utils/routerLinks";
+{{#if isGroup}}import { handGetParent, handPostParent } from '@/utils/methodRequest';{{/if}}
+
+export const getList_{{constantCase name}} = async (payload) => {
+  const { data } = await axios.get(routerLinks("{{ properCase name }}", "api"), {params: PageHelper.requestFormat(payload)});
+  return PageHelper.responseFormat(data);
+}
+export const save_{{constantCase name}} = async (payload) => {
+  const { data } = await axios.post(routerLinks("{{ properCase name }}", "api"), payload);
+  if (data.message) config.notice.success(data.message);
+  return data;
+}
+export const update_{{constantCase name}} = async (payload) => {
+  const { data } = await axios.put(routerLinks("{{ properCase name }}", "api") + '/' + payload.id, payload);
+  if (data.message) config.notice.success(data.message);
+  return data;
+}
+export const delete_{{constantCase name}} = async (payload) => {
+  const {data} = await axios.delete(routerLinks("{{ properCase name }}", "api") + '/' + (payload.length > 1 ? "all" : payload[0]), {params: payload});;
+  if (data.message) config.notice.success(data.message);
+  return null;
+}
+export const patch_{{constantCase name}} = async (payload) => {
+  for (let index = 0; index < payload.length; index++) {
+    const {data} = await axios.patch(routerLinks("{{ properCase name }}", "api") + '/' + payload[index].id, payload[index]);
+    if (data.message) config.notice.success(data.message);
+  }
+  return null;
+}
+{{#if isGroup}}
+export const get_{{constantCase nameGroup}} = async () => handGetParent(routerLinks("{{ properCase nameGroup }}", "api") + "/", "{{camelCase nameGroup}}s")
+export const change_{{constantCase nameGroup}} = async (payload) => handPostParent(routerLinks("{{ properCase nameGroup }}", "api") + '/', payload);
+export const delete_{{constantCase nameGroup}} = async (id) => {
+  const { data } = await axios.delete(routerLinks("{{ properCase nameGroup }}", "api") + '/' + id);
+  if (data.message) config.notice.success(data.message);
+}
+{{/if}}

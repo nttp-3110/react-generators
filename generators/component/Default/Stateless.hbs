@@ -1,0 +1,28 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Typography } from 'antd';
+
+import './style/index.less';
+
+const { Title, Paragraph } = Typography;
+
+const {{properCase name}} = ({ className }) => (
+  <Typography className={className}>
+    <Title>
+      {{lowerCase name}}
+    </Title>
+    <Paragraph>
+      Blank Component
+    </Paragraph>
+  </Typography>
+);
+
+{{properCase name}}.propTypes = {
+  className: PropTypes.string,
+};
+
+{{properCase name}}.defaultProps = {
+  className: 'component-{{lowerCase name}}',
+};
+
+export default {{properCase name}};

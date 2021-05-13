@@ -1,0 +1,33 @@
+{
+  "name": "wesports",
+  "version": "1.0.0",
+  "description": "Based on the most mature technology system of the React ecosystem, an out-of-the-box back-end management system is built. The framework contains some unique custom components, as well as many third-party components that have been well-received and well-known.",
+  "license": "MIT",
+  "homepage": "./",
+  "proxy": "http://localhost:8000",
+  "scripts": {
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "generate": "plop --plopfile ./generators/index.js"
+  },
+  "dependencies": {
+    "plop": "^2.7.4",
+    "react": "^16.13.1",
+    "react-app-polyfill": "^1.0.6",
+    "react-dom": "^16.13.1"
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-decorators": "^7.10.5",
+    "customize-cra": "^1.0.0",
+    "prop-types": "^15.7.2",
+    "react-app-rewired": "^2.1.6",
+    "react-scripts": "^3.4.3",
+    "webpack-bundle-analyzer": "^3.9.0"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not op_mini all",
+    "ie 11"
+  ]
+}

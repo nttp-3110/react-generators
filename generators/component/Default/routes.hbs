@@ -1,0 +1,24 @@
+import { GuardianMW } from 'utils/middlewareRoute';
+import { TEACHER, STUDENT, GUARDIAN, isGuardian } from 'utils/roles';
+
+import withReducer from 'components/withReducer';
+import Loading from 'components/TblLoading';
+{{!-- import { ReactComponent as IcnMenu } from 'assets/images/icn_myCourses.svg'; --}}
+
+import { ROUTES } from './constantsRoute';
+import reducer from './reducers';
+
+export default [
+  {
+  path: ROUTES.DEFAULT,
+  component: withReducer('', reducer)(),
+  roles: [],
+  private: true,
+  exact: true,
+  menu: {
+  title: '',
+  group: '',
+  {{!-- icon: IcnMenu, --}}
+  order: 3
+  }
+]

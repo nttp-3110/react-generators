@@ -1,0 +1,11 @@
+import { actions } from './constants';
+import createReducers from '../utils/createReducers';
+
+const exampleState = {};
+const initialState = {
+  ...exampleState
+};
+
+export { exampleState, initialState };
+
+export default createReducers(initialState, actions);

@@ -1,0 +1,191 @@
+import React from 'react';
+import { Space, Popconfirm } from 'antd';
+import moment from 'moment';
+import intl from "react-intl-universal";
+
+import DataTable from 'components/DataTable';
+import Button from 'components/Button';
+import routerLinks from "@/utils/routerLinks";
+
+import messages from '../messages';
+
+export const createColumns = (self) => {
+	return [
+    {
+      name: 'id',
+      formItem: {
+        type: 'hidden'
+      }
+    },
+    {
+      title: 'Company name',
+      name: 'deptName',
+      tableItem: {
+        filterType: "input",
+        sorter: true,
+      },
+      formItem: {},
+      {{#if isSearch}}
+      searchItem: {
+        group: 'abc'
+      },
+      {{/if}}
+    },
+    {
+      title: 'Distribution network',
+      name: 'distributionNetwork',
+      dict: [{ code: '0', codeName: 'City' }, { code: '1', codeName: 'Country' }],
+      tableItem: {
+        filters: [
+          {
+            label: 'City',
+            value: '0',
+          },
+          {
+            label: 'Country',
+            value: '1',
+          },
+        ],
+        filterType: "checkbox",
+        sorter: true,
+      },
+      formItem: {
+        type: 'select'
+      },
+      {{#if isSearch}}
+      searchItem: {
+        type: 'select'
+      }
+      {{/if}}
+    },
+    {
+      title: 'Address',
+      name: 'address',
+      tableItem: {
+        filterType: "input",
+        sorter: true,
+      },
+      formItem: {},
+      {{#if isSearch}}
+      searchItem: {}
+      {{/if}}
+    },
+    {
+      title: 'Type',
+      name: 'type',
+      tableItem: {
+        filterType: "input",
+        sorter: true,
+      },
+      formItem: {},
+      {{#if isSearch}}
+      searchItem: {}
+      {{/if}}
+    },
+    {
+      title: intl.formatMessage(messages.status),
+      name: "status",
+      formItem: {
+        type: "switch",
+        initialValue: 0,
+      }
+    },
+    {
+      title: intl.formatMessage(messages.createdAt),
+      name: 'created_at',
+      tableItem: {
+        filterType: "datetime",
+        sorter: true,
+        render(text) {
+          return moment(text).format("DD/MM/YYYY");
+        }
+      },
+      {{#if isSearch}}
+      searchItem: {
+        type: 'datetime'
+      }
+      {{/if}}
+    },
+    {
+      title: intl.formatMessage(messages.updatedAt),
+      name: 'updated_at',
+      tableItem: {
+        filterType: "datetime",
+        sorter: true,
+        render(text) {
+          return moment(text).format("DD/MM/YYYY");
+        }
+      },
+      {{#if isSearch}}
+      searchItem: {
+        type: 'datetime'
+      }
+      {{/if}}
+    },
+    {
+      title: intl.formatMessage(messages.operating),
+      tableItem: {
+        width: 180,
+        render: (text, record) => {
+          return (
+            <DataTable.Oper>
+              <Space>
+                {self.checkPermission(routerLinks("{{ properCase name }}", "api"), "PUT") && (
+                  <Button tooltip={intl.formatMessage(messages.modify)} onClick={() => self.onUpdate(record)}>
+                    <i className="las la-edit" />
+                  </Button>
+                )}
+                {self.checkPermission(routerLinks("{{ properCase name }}", "api"), "PUT") && (
+                  <Button
+                    type={record.status === 0 ? "primary" : ""}
+                    danger={record.status === 0}
+                    tooltip={intl.formatMessage(messages.status)}
+                    onClick={() => self.handlePatch([{ id: record.id, status: (record.status === 1 ? 0 : 1) }])}
+                  >
+                    <i className={`las ${ record.status === 0 ? "la-low-vision" : "la-eye"}`} />
+                  </Button>
+                )}
+                {self.checkPermission(routerLinks("{{ properCase name }}", "api"), "DELETE") && (
+                  <Popconfirm
+                    title={intl.formatMessage(messages.areYouSure)}
+                    icon={<i className="las la-question-circle" />}
+                    onConfirm={() => self.handleDelete([record])}
+                  >
+                    <Button tooltip={intl.formatMessage(messages.delete)}>
+                      <i className="las la-trash-alt" />
+                    </Button>
+                  </Popconfirm>
+                )}
+              </Space>
+            </DataTable.Oper>
+          )
+        }
+      }
+    }
+  ]
+};
+{{#if isGroup}}
+export const createForm{{pascalCase nameGroup}}Drag = ({{lowerCase name}}s) => [
+  {
+    title: 'Title',
+    name: 'title',
+    formItem: {}
+  },
+  {
+    title: 'Page',
+    name: 'page_id',
+    dict: {{lowerCase name}}s,
+    formItem: {
+      type: 'select'
+    },
+  },
+  {
+    title: intl.formatMessage(messages.status),
+    name: "status",
+    formItem: {
+      type: "switch",
+      initialValue: 0,
+    }
+  },
+]
+{{/if}}

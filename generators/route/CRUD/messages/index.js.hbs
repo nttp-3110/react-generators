@@ -1,0 +1,47 @@
+export const scopeUser = 'routes.User';
+export const scope = 'routes.{{properCase name}}';
+
+export default {
+  createdAt: {
+    id: `${scopeUser}.createdAt`,
+    defaultMessage: 'Created at',
+  },
+  updatedAt: {
+    id: `${scopeUser}.updatedAt`,
+    defaultMessage: 'Updated at',
+  },
+  operating: {
+    id: `${scopeUser}.operating`,
+    defaultMessage: 'Operating',
+  },
+  modify: {
+    id: `${scopeUser}.modify`,
+    defaultMessage: 'Modify',
+  },
+  status: {
+    id: `${scopeUser}.status`,
+    defaultMessage: 'Status',
+  },
+  areYouSure: {
+    id: `${scopeUser}.areYouSure`,
+    defaultMessage: 'Are you sure?',
+  },
+  delete: {
+    id: `${scopeUser}.delete`,
+    defaultMessage: 'Delete',
+  },
+  add: {
+    id: `${scopeUser}.add`,
+    defaultMessage: 'Add',
+  },
+  {{#if isGroup}}
+  {{camelCase nameGroup}}: {
+    id: `${scope}.{{camelCase nameGroup}}`,
+    defaultMessage: '{{nameGroup}}',
+  },
+  {{/if}}
+  test: {
+    id: `${scope}.test`,
+    defaultMessage: 'Test',
+  },
+};

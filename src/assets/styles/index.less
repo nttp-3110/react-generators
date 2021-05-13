@@ -1,0 +1,416 @@
+@import '~antd/dist/antd.less';
+@import '~assets/styles/variables.less';
+
+@import '~line-awesome/dist/line-awesome/css/line-awesome.css';
+@import '~animate.css/animate.css';
+@import '~assets/styles/animate.css';
+
+html,
+body,
+:global(#root) {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background: @light;
+}
+
+@media print {
+  .ant-checkbox-checked .ant-checkbox-inner {
+    background: transparent !important;
+    border-color: @dark-gray !important;
+  }
+  .ant-checkbox-checked .ant-checkbox-inner:after {
+    border-color: @dark-gray !important;
+  }
+}
+
+@media (min-width: 576px) {
+  /* Scroll bar style */
+  ::-webkit-scrollbar {
+    height: 4px;
+    width: 4px;
+    z-index: 30;
+
+    &-track {
+      background-color: transparent;
+      border-left: 1px solid transparent;
+    }
+    &-thumb {
+      background-color: @light-gray;
+      &:hover {
+        background-color: @light-gray;
+      }
+    }
+    &-thumb,
+    &-track {
+      border: 0;
+      border-radius: 4px;
+      box-shadow: none;
+    }
+  }
+}
+
+body {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: @light;
+}
+
+button {
+  background-color: transparent;
+  padding: 0;
+  border: none;
+  text-align: left;
+  //&:focus { background-color: transparent; }
+}
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+  color: @gray;
+  &:active {
+    color: @primary-7;
+  }
+  &:hover {
+    color: @primary-6;
+  }
+}
+
+code {
+  padding: 2px 4px;
+  font-size: 90%;
+  color: @highlight-color;
+  background-color: @light;
+  border-radius: 1px;
+}
+
+/* Rewrite antd default layout style */
+.ant-layout {
+  &-header {
+    height: auto;
+    line-height: normal;
+    padding: 0;
+    background: @white;
+    overflow: hidden;
+  }
+
+  &-content {
+    position: relative;
+    min-height: auto; // override antd min-height: 0;
+    // overflow: auto;
+  }
+
+  &-footer {
+    text-align: center;
+    width: 100%;
+    background-color: @white;
+    padding: 10px;
+  }
+}
+
+// Layout in the routing page
+.page {
+  &.ant-layout {
+    > .ant-layout-content {
+      padding: 24px 24px 0px;
+    }
+  }
+}
+
+// Long text does not wrap, if width is set, an ellipsis will appear if it exceeds
+.nobr {
+  display: block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+// Clean float
+.clearfix {
+  zoom: 1;
+  &:before,
+  &:after {
+    content: ' ';
+    display: table;
+  }
+  &:after {
+    clear: both;
+    visibility: hidden;
+    font-size: 0;
+    height: 0;
+  }
+}
+
+.flex {
+  display: flex;
+  height: 100%;
+  position: relative;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.flex-auto {
+  flex: auto;
+  position: relative;
+  height: 100%;
+}
+
+.flex-auto-hidden {
+  .flex-auto;
+  overflow: hidden;
+}
+
+.flex-none {
+  flex: none;
+  position: relative;
+}
+
+.abs {
+  position: absolute;
+}
+
+.abs-full {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.fl {
+  float: left;
+}
+
+.fr {
+  float: right;
+}
+
+.inline-block {
+  display: inline-block;
+}
+
+.las:not(.la-3x) {
+  font-size: 20px;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.mb-1 {
+  margin-bottom: 14px;
+}
+
+.mb-2 {
+  margin-bottom: 28px;
+}
+
+.word-break {
+  word-break: break-all;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  &.ant-typography { font-weight: 500;}
+}
+
+.ant-btn {
+  &-sm {
+    line-height: @btn-height-sm / 1.5;
+  }
+  &-lg {
+    padding-left: @btn-height-lg /1.5;
+    padding-right: @btn-height-lg /1.5;
+    font-size: 13px;
+  }
+  &-link {
+    margin: 0;
+    padding: 0;
+    height: auto;
+  }
+  &:not(.ant-btn-primary):not(.ant-btn-dashed):not(.ant-btn-danger):not(.ant-btn-link) {
+    border-color: transparent;
+    background-color: rgba(@primary-color, 0.1);
+
+    &:hover {
+      background-color: @primary-color;
+      color: @white;
+    }
+  }
+  &-icon-only > i  {
+    vertical-align: initial;
+    position: relative;
+    top: 2px;
+  }
+
+  > .las + span,
+  > span + .las {
+    margin-left: 8px;
+  }
+
+  > .las + span {
+    position: relative;
+    top: -2px;
+  }
+}
+.ant-popover-message > .las {
+  position: absolute;
+  color: @warning-color;
+  font-size: 19px;
+}
+.ant-menu {
+  margin-top: 8px;
+
+  &-item, &-submenu-title {
+    .las {
+      min-width: 20px;
+      margin-right: 10px;
+      transition: font-size .15s cubic-bezier(.215,.61,.355,1),margin .3s cubic-bezier(.645,.045,.355,1);
+      position: relative;
+      top: 2px;
+      color: @light-primary;
+
+      + span {
+        opacity: 1;
+        transition: opacity .3s cubic-bezier(.645,.045,.355,1),width .3s cubic-bezier(.645,.045,.355,1);
+      }
+    }
+    &:hover .las{ color: @primary-color; }
+  }
+  &-item-selected,
+  &-submenu-selected {
+    .las{ color: @primary-color; }
+  }
+  &-inline {
+    &-collapsed {
+      .ant-menu-item, .ant-menu-submenu-title {
+        .las + span {
+          display: inline-block;
+          max-width: 0;
+          opacity: 0;
+        }
+      }
+    }
+    .ant-menu-submenu:not(:last-child) {
+      margin-bottom: 8px;
+    }
+  }
+  &.ant-menu-dark { color: @menu-item-color; }
+}
+.ant-input {
+  height: 38px;
+  font-weight: 400;
+  &[type='password'] {
+    height: 28px;
+  }
+
+  &-affix-wrapper {
+    display: flex;
+    align-items: center;
+  }
+  &-suffix {
+    align-items: center;
+    display: flex;
+  }
+}
+.ant-pagination{
+  &.mini {
+    .ant-pagination-options-quick-jumper input {
+      height: 32px;
+    }
+  }
+
+  .ant-pagination-options-quick-jumper input {
+    height: 38px;
+  }
+}
+.ant-form-item {
+  &-control-input-content {
+    width: 100%;
+  }
+  &-label.ant-col-24 > label{
+    height: inherit;
+  }
+}
+.ant-select {
+  height: 35px;
+  .ant-input {
+    height: 25px;
+    &-suffix {
+      margin-top: 3px;
+    }
+  }
+}
+.ant-picker {
+  height: 38px;
+}
+.ant-table {
+  &-container {
+    overflow: auto;
+    max-width: 100vw;
+  }
+  &-content{
+    display: inline;
+  }
+  &-filter{
+    &-trigger {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    &-dropdown {
+      > div {
+        padding: 8px;
+        .ant-input,
+        .ant-checkbox-group,
+        .ant-picker-range,
+        .ant-radio-group {
+          width: 210px;
+          margin-bottom: 8px;
+          display: block;
+        }
+        .ant-picker-range {
+          display: flex;
+        }
+        .ant-checkbox-group-item,
+        .ant-radio-wrapper {
+          display: block;
+          margin-bottom: 5px;
+        }
+        .ant-btn {
+          width: 100px;
+          + .ant-btn {
+            float: right;
+          }
+        }
+      }
+    }
+  }
+}
+.browser-ie {
+  .ant-radio-wrapper,
+  .ant-checkbox-group {
+    margin-top: 10px;
+  }
+}
+
+@media (max-width: @mobile-media) {
+  .ant-btn-group,
+  .search-btns {
+    .las + span {
+      display: none;
+    }
+  }
+}
